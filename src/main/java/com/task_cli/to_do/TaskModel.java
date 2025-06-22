@@ -1,78 +1,30 @@
 package com.task_cli.to_do;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.sql.Timestamp;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "TASK")
 public class TaskModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TASK_ID", columnDefinition = "NUMBER")
     private long taskId;
+    @Column(name = "DESCRIPTION", columnDefinition = "NVARCHAR2(50)")
     private String descripcion;
+    @Column(name = "STATUS", columnDefinition = "NVARCHAR2(15)")
     private String status;
+    @Column(name = "CREATEDAT", columnDefinition = "TIMESTAMP")
     private Timestamp createdAt;
+    @Column(name = "UPDATEDAT", columnDefinition = "TIMESTAMP")
     private Timestamp updatedAt;
 
-    public TaskModel() {
-    }
 
-    public TaskModel(long taskId, String descripcion, String status, Timestamp createdAt, Timestamp updatedAt) {
-        this.taskId = taskId;
-        this.descripcion = descripcion;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(long taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "TaskModel{" +
-                "taskId=" + taskId +
-                ", descripcion='" + descripcion + '\'' +
-                ", status='" + status + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
 }

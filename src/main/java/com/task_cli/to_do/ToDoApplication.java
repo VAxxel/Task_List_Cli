@@ -36,6 +36,7 @@ public class ToDoApplication implements CommandLineRunner {
 			System.out.println("8. Salir");
 			System.out.print("Seleccione una opción: ");
 			int opcion = scanner.nextInt();
+			scanner.nextLine(); // Consumir el salto de línea después de la entrada numérica
 
 			switch (opcion){
 				case 1:
@@ -49,13 +50,14 @@ public class ToDoApplication implements CommandLineRunner {
 						System.out.println("Aun no hay tareas registradas");
 					}else {
 						System.out.println("Lista de tareas: ");
-						tasks.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Status: %s",
+						tasks.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Status: %s%n",
 								taskModel.getTaskId(), taskModel.getDescripcion(), taskModel.getStatus()));
 					}
 					break;
 				case 3:
 					System.out.println("Ingresa el ID de la tarea a actualizar");
 					Long id = scanner.nextLong();
+					scanner.nextLine();
 					System.out.println("Nuevo estado -> TO-DO | IN-PROGRESS | DONE");
 					String status = scanner.next();
 					System.out.println(service.updateStatus(id, status));
@@ -63,6 +65,7 @@ public class ToDoApplication implements CommandLineRunner {
 				case 4:
 					System.out.println("Ingresa el ID a eliminar");
 					long idEliminar = scanner.nextInt();
+					scanner.nextLine();
 					service.deleteTask(idEliminar);
 					break;
 				case 5:
@@ -71,27 +74,27 @@ public class ToDoApplication implements CommandLineRunner {
 						System.out.println("No hay tareas completadas(DONE)");
 					}else {
 						System.out.println("Tareas completadas: ");
-						tasksDone.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s",
+						tasksDone.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s%n",
 								taskModel.getTaskId(), taskModel.getDescripcion(), taskModel.getUpdatedAt()));
 					}
 					break;
 				case 6:
 					List<TaskModel> tasksInProgress = service.taskInProgress();
 					if (tasksInProgress.isEmpty()){
-						System.out.println("No hay tareas completadas(DONE)");
+						System.out.println("No hay tareas en progreso(IN-PROGRESS)");
 					}else {
-						System.out.println("Tareas completadas: ");
-						tasksInProgress.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s",
+						System.out.println("Tareas in progress: ");
+						tasksInProgress.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s%n",
 								taskModel.getTaskId(), taskModel.getDescripcion(), taskModel.getUpdatedAt()));
 					}
 					break;
 				case 7:
 					List<TaskModel> tasksToDo = service.taskToDo();
 					if (tasksToDo.isEmpty()){
-						System.out.println("No hay tareas completadas(DONE)");
+						System.out.println("No hay tareas por hacer(TO-DO)");
 					}else {
-						System.out.println("Tareas completadas: ");
-						tasksToDo.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s",
+						System.out.println("Tareas por hacer: ");
+						tasksToDo.forEach(taskModel -> System.out.printf("ID: %d | Descripcion: %s | Fecha de finalizacion: %s%n",
 								taskModel.getTaskId(), taskModel.getDescripcion(), taskModel.getUpdatedAt()));
 					}
 					break;

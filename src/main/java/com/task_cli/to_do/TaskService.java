@@ -1,8 +1,11 @@
 package com.task_cli.to_do;
 
+import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
 import java.util.List;
 
+@Service
 public class TaskService {
 
     ITaskRepository repository;
@@ -25,7 +28,7 @@ public class TaskService {
 
     public String updateStatus(long id, String status){
         try {
-            TaskModel task = repository.findById(id).get();
+            TaskModel task = repository.findById(id).orElse(null);
             if (task != null) {
                 if (!isValidStatus(status)){
                     return "El estado no es valido, debe ser TO-DO, IN-PROGRESS o DONE";
@@ -45,12 +48,17 @@ public class TaskService {
         return status.equals("TO-DO") || status.equals("IN-PROGRESS") || status.equals("DONE");
     }
 
-    public void deleteTask(long id){
-        repository.deleteById(id);
+    public String deleteTask(long id){
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return "Tarea eliminada exitosamente";
+        }else {
+            return "No se encontro la tarea con ID: "+id;
+        }
     }
 
     public TaskModel taskById(long id){
-        return repository.findById(id).get();
+        return repository.findById(id).orElse(null);
     }
 
     public List<TaskModel> taskDone(){

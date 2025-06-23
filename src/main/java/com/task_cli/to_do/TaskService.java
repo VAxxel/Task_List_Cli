@@ -27,6 +27,9 @@ public class TaskService {
         try {
             TaskModel task = repository.findById(id).get();
             if (task != null) {
+                if (!isValidStatus(status)){
+                    return "El estado no es valido, debe ser TO-DO, IN-PROGRESS o DONE";
+                }
                 task.setStatus(status);
                 task.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
                 repository.save(task);
@@ -38,6 +41,31 @@ public class TaskService {
         return "Error al actualizar la tarea" + e.getMessage();
         }
     }
+    private boolean isValidStatus(String status){
+        return status.equals("TO-DO") || status.equals("IN-PROGRESS") || status.equals("DONE");
+    }
 
+    public void deleteTask(long id){
+        repository.deleteById(id);
+    }
 
+    public TaskModel taskById(long id){
+        return repository.findById(id).get();
+    }
+
+    public List<TaskModel> taskDone(){
+     List<TaskModel> taskAllToDone = repository.findAll();
+     return taskAllToDone.stream().filter(taskModel -> "DONE".equalsIgnoreCase(taskModel.getStatus())).toList();
+    }
+
+    public List<TaskModel> taskInProgress() {
+        List<TaskModel> taskAllToInProgress = repository.findAll();
+        return taskAllToInProgress.stream().
+                filter(taskModel -> "IN-PROGRESS".equalsIgnoreCase(taskModel.getStatus())).toList();
+    }
+
+    public List<TaskModel> taskToDo(){
+        List<TaskModel> taskAllToDo = repository.findAll();
+        return taskAllToDo.stream().filter(taskModel -> "TO-DO".equalsIgnoreCase(taskModel.getStatus())).toList();
+    }
 }

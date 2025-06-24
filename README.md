@@ -51,3 +51,6 @@ Sigue las instrucciones que aparecen en la terminal para gestionar las tareas. p
 
 ## Contribuciones
 Si deseas contribuir, por favor crea un fork del repositorio y envía un pull request con tus cambios.
+
+## Idea de proyecto backend de gestion de tareas de:
+https://roadmap.sh/projects/task-tracker
